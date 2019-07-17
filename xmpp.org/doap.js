@@ -4,6 +4,17 @@ const foafNS = 'http://xmlns.com/foaf/0.1/';
 const xmppNS = 'https://linkmauve.fr/ns/xmpp-doap#';
 const xhtmlNS = 'http://www.w3.org/1999/xhtml';
 
+let latestVersion = '';
+(function() {
+    const dl = document.getElementById('appendix-docinfo').nextSibling;
+    for (let child of dl.children) {
+        if (child.localName == 'dt' && child.textContent == 'Version') {
+            latestVersion = child.nextSibling.textContent;
+            break;
+        }
+    }
+})();
+
 function getElement(elem, ns, name) {
     const list = elem.getElementsByTagNameNS(ns, name)
     if (list.length < 1) return null;
@@ -151,7 +162,7 @@ function updateDisplay(software) {
     const tdVersion = document.createElementNS(xhtmlNS, 'td');
     const aVersion = document.createElementNS(xhtmlNS, 'a');
     aVersion.href = '#revision-history-v' + version;
-    aVersion.textContent = version;
+    aVersion.textContent = (version == latestVersion) ? 'latest' : version;
     tdVersion.appendChild(aVersion);
     tr.appendChild(tdVersion);
 
