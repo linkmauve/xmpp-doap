@@ -95,6 +95,9 @@ function sendRequest(filename) {
 function updateDisplay(software) {
     const {name, homepage, type} = software;
     const [_, number] = /xep-(\d\d\d\d)\.(?:x|ht)ml/.exec(document.location);
+    if (!(number in software.xeps))
+        return;
+
     const xep = software.xeps[number];
     const {status, version, since, note} = xep;
 
